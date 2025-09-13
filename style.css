@@ -109,6 +109,29 @@ main {
 
 /* Begin ChatGPT code block 2025-09-13 03:16 PM EDT */
 @media (max-width: 999px) {
+/* sub-panel code */
+	/* Lock scroll when menu open */
+  body.menu-open {
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  /* Submenu panel */
+  .main-nav .nav-menu .submenu-panel {
+    display: block;
+    padding: 0;
+    margin: 0;
+  }
+
+  .main-nav .nav-menu .submenu-panel .back-button > a {
+    display: block;
+    padding: 10px 12px;
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--brand);
+    background: #f0f0f0;
+    border-bottom: 1px solid var(--border);
+  }
   /* --- Toggle button with icon + label --- */
   .menu-toggle{
     display:flex; align-items:center; gap:8px;
