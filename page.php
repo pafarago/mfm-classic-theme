@@ -4,11 +4,8 @@
   <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
     <article id="page-<?php the_ID(); ?>" <?php post_class(); ?>>
-      <header class="entry-header">
-        <?php the_title('<h1 class="entry-title">','</h1>'); // never link page titles ?>
-      </header>
-
-      <div class="entry-content">
+      <div class="content-box">
+        <?php the_title('<h1 class="entry-title">','</h1>'); ?>
         <?php the_content(); ?>
       </div>
     </article>

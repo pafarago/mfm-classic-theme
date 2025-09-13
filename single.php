@@ -22,7 +22,7 @@
         <?php the_title('<h1 class="entry-title">','</h1>'); // no link on single ?>
       </header>
 
-      <div class="entry-content">
+      <div class="content-box">
         <?php the_content(); ?>
       </div>
     </article>
