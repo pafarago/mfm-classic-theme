@@ -1,424 +1,253 @@
-/*
-Theme: mfm-classic
-Description: Consolidated, responsive styling for MFM site (desktop + mobile)
-Author: Peter & ChatGPT
-Timestamp: 2025-09-11 12:58 PM EDT by ChatGPT
-*/
+/* ============================================================
+   Midlothian Friends Meeting Theme Styles
+   Full Replacement - 2025-09-13 01:25 AM EDT
+   ============================================================ */
 
-/* =========================================================
-   0) Baseline / helpers
-   ========================================================= */
-:root{
+/* ---------- Root Variables ---------- */
+:root {
   --brand: #003366;
   --brand-2: #006699;
   --border: #ddd;
   --text: #222;
   --muted: #666;
   --card-bg: #fff;
-  --shadow: 0 2px 10px rgba(0,0,0,.06);
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   --radius: 10px;
-  --container: 1024px; /* main content width on desktop */
+  --container: 1024px;
 }
 
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
-body{color:var(--text); line-height:1.5; font-family: Georgia, "Times New Roman", Times, serif}
-
-/* utility */
-.center-block{margin-left:auto;margin-right:auto;display:block;width:fit-content}
-.hide{display:none!important}
-
-/* =========================================================
-   1) Fixed Header / Logo / Navigation
-   ========================================================= */
-.site-header{
-  position:fixed; top:0; left:0; width:100%;
-  background:#fff; border-bottom:1px solid var(--border);
-  z-index:1000;
-}
-.container{max-width: var(--container); margin:0 auto; padding:0 16px}
-.header-inner{
-  display:flex; flex-direction:column; justify-content:center; align-items:center;
-  padding:10px 0 0 0;
+/* ---------- Base ---------- */
+body {
+  color: var(--text);
+  line-height: 1.6;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  margin: 0;
+  padding: 0;
 }
 
-/* Logo */
-.site-logo{
-  display:block; margin:0 auto;
-  width:auto; height:auto; max-height:120px;
+a {
+  color: var(--brand-2);
+  text-decoration: none;
 }
 
-/* Menu toggle (hamburger) */
-.menu-toggle{
-  display:none;
-  background:none; border:none; cursor:pointer;
-  font-size:28px; line-height:1; padding:8px 10px; margin:8px 0 0 0;
-  color:var(--brand);
+a:hover {
+  color: var(--brand);
+  text-decoration: underline;
 }
 
-/* Desktop nav */
-.main-nav{ margin:8px 0 10px }
-.nav-menu,
-.nav-menu ul{ list-style:none; margin:0; padding:0 }
-.nav-menu{ display:flex; justify-content:center; gap:2em }
-.nav-menu > li{ position:relative }
-.nav-menu a{
-  text-decoration:none; color:var(--brand);
-  display:block; padding:8px 6px; font-size:1rem;
-}
-.nav-menu a:hover{ color:var(--brand-2) }
-
-/* Dropdowns */
-.nav-menu .sub-menu{
-  display:none; position:absolute; top:100%; left:0;
-  background:#fff; border:1px solid var(--border);
-  min-width:220px; box-shadow: var(--shadow);
-  z-index:1001;
-}
-.nav-menu .sub-menu li{ width:100% }
-.nav-menu .sub-menu a{ padding:10px 12px; text-align:left; white-space:nowrap }
-.nav-menu li:hover > .sub-menu,
-.nav-menu li.open > .sub-menu{ display:block }
-
-/* ===========================
-   PATCH — Two-mode responsive header (with dropdowns)
-   Timestamp: 2025-09-11 10:40 PM EDT by ChatGPT
-   =========================== */
-
-/* Mobile & tablet (<1000px): logo left, hamburger right, collapsed nav */
-@media (max-width: 999px) {
-  .site-header .header-inner {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important; /* logo left, hamburger right */
-    align-items: center !important;            /* vertical alignment */
-    padding: 8px 0;
-  }
-
-  .site-logo {
-    order: 1;
-    max-height: 80px;  /* unified scaling */
-    height: auto;
-    margin: 0 !important;
-    display: inline-block !important;          /* prevent auto-centering */
-  }
-
-  .menu-toggle {
-    order: 2;
-    margin-left: auto;
-    display: flex;
-    align-items: center;  /* vertically center hamburger */
-    color: #0073e6;
-  }
-
-  .menu-toggle .menu-label {
-    display: none; /* hide "Menu" text */
-  }
-
-  /* Slide-down animation container */
-  .nav-menu {
-    display: none; /* hide full nav by default */
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height .35s ease, opacity .25s ease;
-    background: #fff;
-    border-top: 1px solid var(--border);
-  }
-
-  .nav-menu.active {
-    display: block; /* only show when toggled */
-    max-height: 1000px;
-    opacity: 1;
-  }
-
-  .nav-menu > li { border-bottom: 1px solid #eee; }
-  .nav-menu a { padding: 14px 16px; font-size: 1.05rem; }
-
-  /* Mobile/tablet dropdowns */
-  .nav-menu .sub-menu {
-    position: static;   /* flow with the list */
-    border: none;
-    box-shadow: none;
-    display: none;
-    padding-left: 12px;
-    background: transparent;
-  }
-
-  .nav-menu li.open > .sub-menu {
-    display: block;
-  }
+img {
+  max-width: 100%;
+  height: auto;
 }
 
-/* Desktop (≥1000px): full menu, hamburger hidden */
-@media (min-width: 1000px) {
-  .menu-toggle {
-    display: none !important;
-  }
-
-  .nav-menu {
-    display: flex !important;
-    max-height: none !important;
-    opacity: 1 !important;
-    overflow: visible !important;
-  }
-
-  /* Desktop dropdowns */
-  .nav-menu .sub-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #fff;
-    border: 1px solid var(--border);
-    min-width: 220px;
-    box-shadow: var(--shadow);
-    z-index: 1001;
-  }
-
-  .nav-menu li:hover > .sub-menu,
-  .nav-menu li.open > .sub-menu {
-    display: block;
-  }
+/* ---------- Header ---------- */
+.site-header {
+  text-align: center;
+  padding: 10px 0 0 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
 }
 
-/* ===========================
-   PATCH END — Two-mode responsive header (with dropdowns)
-   Timestamp: 2025-09-11 10:40 PM EDT by ChatGPT
-   =========================== */
+.site-header img {
+  max-height: 120px;
+  height: auto;
+}
 
-/* ===========================
-   PATCH — Unified hamburger styles
-   Timestamp: 2025-09-12 6:15 PM EDT by ChatGPT
-   =========================== */
+/* Navigation */
+.nav-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
 
-/* Default (desktop) — hidden */
+.nav-menu li {
+  position: relative;
+}
+
+.nav-menu a {
+  display: block;
+  padding: 6px 10px;
+  color: var(--brand);
+}
+
+.nav-menu a:hover {
+  color: var(--brand-2);
+}
+
+/* Submenu */
+.nav-menu ul {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 0;
+  margin: 0;
+  min-width: 200px;
+  z-index: 1000;
+  list-style: none;
+}
+
+.nav-menu ul li {
+  width: 100%;
+}
+
+.nav-menu ul a {
+  padding: 10px;
+  white-space: nowrap;
+}
+
+.nav-menu li:hover > ul {
+  display: block;
+}
+
+/* ---------- Mobile Nav ---------- */
 .menu-toggle {
   display: none;
   background: none;
   border: none;
+  padding: 8px 12px;
   cursor: pointer;
-  font-size: 1.8rem;
-  line-height: 1;
-  padding: 8px 10px;
-  margin: 0;
+  font-size: 1rem;
+  color: var(--brand-2);
+  transition: color 0.3s ease;
+}
+
+.menu-toggle:hover {
   color: var(--brand);
 }
 
-/* Mobile & tablet */
 @media (max-width: 999px) {
-  .menu-toggle {
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .nav-menu.active {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    order: 2;
-    margin-left: auto;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #4da6ff; /* light blue idle */
-    transition: color 0.3s ease;
   }
 
-  .menu-toggle[aria-expanded="true"] {
-    color: #001f3f; /* navy when active */
+  .nav-menu li {
+    display: block;
   }
 
-  /* Hide the ::after ghost content */
-  .menu-toggle::after {
-    content: none !important;
+  .nav-menu li a {
+    padding: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .menu-toggle {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.1rem;
   }
 }
-/* ===========================
-   END PATCH — Unified hamburger styles
-   Timestamp: 2025-09-12 6:15 PM EDT by ChatGPT
-   =========================== */
 
-/* =========================================================
-   2) Main content area (JS adjusts padding-top for fixed header)
-   ========================================================= */
-main{
+/* ---------- Main Content ---------- */
+main {
   max-width: var(--container);
-  margin:0 auto;
-  padding:1.5em 1em;
-  padding-top:15px; /* initial; JS will set exact header height */
+  margin: 20px auto;
+  padding: 0 15px;
 }
 
-/* Paragraph rhythm for readability */
-.page .entry-content p,
-.single .entry-content p,
-.entry-content p{ margin-bottom:1.25em }
-
-/* =========================================================
-   3) Archive / Blog list cards + Single post
-   ========================================================= */
-article.hentry{
-  background:var(--card-bg);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow: var(--shadow);
-  padding:1.25em 1.25em 1.5em;
-  margin:1.25em 0;
-}
-
-/* Titles */
-.entry-title{
-  margin:0 0 .75em 0; padding-bottom:.35em;
-  border-bottom:1px solid #ccc; text-align:center;
-}
-.entry-title a{ color:#222; text-decoration:none }
-.entry-title a:hover, .entry-title a:focus{ color:var(--brand); text-decoration:underline }
-
-/* Meta */
-.entry-meta{ text-align:center; font-style:italic; color:var(--muted); margin-bottom:1em }
-
-/* Read More button */
-a.more-link{
-  display:inline-block; margin:1em auto 0; padding:.6em 1.2em;
-  background:#eee; border:1px solid #ccc; border-radius:6px;
-  text-decoration:none; color:#333; font-size:.95rem;
-  transition: background .2s, color .2s, border-color .2s;
-}
-a.more-link:hover, a.more-link:focus{ background:var(--brand); color:#fff; border-color:var(--brand) }
-
-/* Single post typography tweaks */
-.single .entry-content h2{ margin-top:1.2em }
-.single .entry-content ul,
-.single .entry-content ol{ margin:0 0 1.1em 1.2em }
-
-/* =========================================================
-   4) Embeds (Google Calendar, Google Docs, Drive)
-   ========================================================= */
-/* Generic responsive iframe wrapper */
-.embed-container{
-  position:relative; overflow:hidden; width:100%;
-  padding-bottom:75%; /* 4:3 default; override per use if needed */
-  height:0; border:1px solid var(--border); border-radius:8px;
-}
-.embed-container iframe{
-  position:absolute; top:0; left:0; width:100%; height:100%; border:0;
-}
-
-/* Calendar: make it taller and full width */
-.calendar-embed{ max-width:100%; margin:0 auto }
-.calendar-embed iframe{ width:100%; min-height:600px; }
-
-/* Google Doc embed: taller doc view */
-.gdoc-embed{ max-width:100%; margin:0 auto }
-.gdoc-embed iframe{ width:100%; min-height:800px }
-
-/* If you’re using WP block wrappers */
-.wp-block-embed__wrapper iframe{ width:100% }
-
-/* =========================================================
-   5) Custom ordered lists for outline pages (three-level)
-   (Roman → Upper Alpha → Decimal)
-   ========================================================= */
-/* ===========================
-   Handbook TOC — exact levels
-   Works when the class "mfm-outline" is on the outer List block
-   =========================== */
-
-/* Level 1 (outer list) — Roman numerals */
-.entry-content .wp-block-list.mfm-outline {
-  list-style-type: upper-roman !important;
-  margin-left: 1em;
-}
-
-/* Level 2 (list nested directly under level 1) — Uppercase letters */
-.entry-content .wp-block-list.mfm-outline > li > .wp-block-list {
-  list-style-type: upper-alpha !important;
-  margin-left: 2em;
-}
-
-/* Level 3 (nested under level 2) — Decimal */
-.entry-content .wp-block-list.mfm-outline > li > .wp-block-list > li > .wp-block-list {
-  list-style-type: decimal !important;
-  margin-left: 3em;
-}
-
-/* Level 4 (nested under level 3) — Lowercase roman */
-.entry-content .wp-block-list.mfm-outline > li > .wp-block-list > li > .wp-block-list > li > .wp-block-list {
-  list-style-type: lower-roman !important;
-  margin-left: 4em;
-}
-
-/* =========================================================
-   6) Footer
-   ========================================================= */
-.site-footer{
-  text-align:center; padding:2em 0; border-top:1px solid var(--border);
-  color:#555; font-size:.95rem
-}
-
-/* =========================================================
-   7) Small polish
-   ========================================================= */
-/* Remove bullets everywhere in nav */
-.nav-menu, .nav-menu ul{ list-style:none }
-
-/* Better hit area for top-level items */
-.nav-menu > li > a{ padding:10px 8px }
-
-/* Make dropdowns clearly left-aligned on desktop */
-.nav-menu .sub-menu a{ text-align:left }
-
-/* Ensure dropdowns render above content */
-.nav-menu .sub-menu{ z-index:2000 }
-
-/* Card spacing on very large screens */
-@media (min-width:1280px){
-  article.hentry{ margin:1.4em auto }
-}
-
-/* Timestamp: 2025-09-11 12:58 PM EDT by ChatGPT */
-
-/* ===========================
-   PATCH START — Fix text wrapping & containment in content areas
-   Timestamp: 2025-09-11 5:42 PM EDT by ChatGPT
-   =========================== */
-
+/* Content box */
 .entry-content {
-  overflow-wrap: break-word;   /* allow long words or inline bolds to break */
-  word-wrap: break-word;       /* support for older browsers */
-  hyphens: auto;               /* optional hyphenation */
-  line-height: 1.6;            /* more readable */
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin: 20px auto;
+  max-width: var(--container);
 }
 
-.entry-content p {
-  margin-bottom: 1.2em;        /* add space between paragraphs */
+/* Page titles inside content box */
+h1.entry-title,
+h2.entry-title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
 }
 
-/* ===========================
-   PATCH END — Fix text wrapping & containment in content areas
-   Timestamp: 2025-09-11 5:42 PM EDT by ChatGPT
-   =========================== */
-
-/* ===========================
-   PATCH START — Blue hamburger toggle
-   Timestamp: 2025-09-11 5:47 PM EDT by ChatGPT
-   =========================== */
-
-.menu-toggle {
-  font-size: 1.8rem;
-  color: #004d99;         /* Quaker blue */
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5em;
+/* ---------- Blog / Archive ---------- */
+.archive .hentry {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: var(--container);
 }
 
-.menu-toggle:focus,
-.menu-toggle:hover {
-  color: #00264d;         /* darker blue on hover */
+.archive .hentry h2.entry-title {
+  margin-top: 0;
 }
 
-.menu-toggle::after {
-  content: "";            /* remove "Menu" text */
+.archive .hentry a {
+  color: var(--brand);
 }
 
-/* ===========================
-   PATCH END — Blue hamburger toggle
-   Timestamp: 2025-09-11 5:47 PM EDT by ChatGPT
-   =========================== */
+/* ---------- Ordered Lists for Handbook ---------- */
+.mfm-outline {
+  list-style-type: upper-roman;
+  margin-left: 2rem;
+}
+
+.mfm-outline li {
+  margin: 0.5rem 0;
+}
+
+.mfm-outline li ol {
+  list-style-type: upper-alpha;
+  margin-left: 2rem;
+}
+
+.mfm-outline li ol li ol {
+  list-style-type: decimal;
+  margin-left: 2rem;
+}
+
+/* ---------- Embeds ---------- */
+.embed-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.embed-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+/* ============================================================
+   End of style.css
+   Full Replacement - 2025-09-13 01:25 AM EDT
+   ============================================================ */
 
