@@ -1,45 +1,21 @@
-/* ============================================================
-   mfm-scripts.js
-   Full Replacement - 2025-09-13 01:00 AM EDT
-   ============================================================ */
-
+/* Begin ChatGPT code block 2025-09-13 03:16 PM EDT */
 document.addEventListener("DOMContentLoaded", function () {
   const toggleButton = document.querySelector(".menu-toggle");
   const navMenu = document.querySelector(".nav-menu");
   const header = document.querySelector(".site-header");
 
   if (toggleButton && navMenu) {
-    // --- Resize handler: show/hide button ---
-    function handleResize() {
-      if (window.innerWidth <= 999) {
-        toggleButton.style.display = "block";
-        toggleButton.style.position = "absolute";
-        toggleButton.style.top = "10px";
-        toggleButton.style.left = "15px";
-        navMenu.classList.remove("active");
-        toggleButton.setAttribute("aria-expanded", "false");
-        toggleButton.textContent = "☰ Open Menu";
-      } else {
-        toggleButton.style.display = "none";
-        navMenu.classList.remove("active");
-      }
-    }
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    // --- Toggle menu open/close ---
+    const label = toggleButton.querySelector(".label");
     toggleButton.addEventListener("click", function () {
       const isOpen = navMenu.classList.toggle("active");
+      this.classList.toggle("open", isOpen);
       this.setAttribute("aria-expanded", isOpen);
-      this.textContent = isOpen ? "✖ Close Menu" : "☰ Open Menu";
+      if (label) label.textContent = isOpen ? "CLOSE" : "MENU";
     });
   }
 
-  // --- Adjust page padding under fixed header ---
-  document.documentElement.style.setProperty('--header-offset', header.offsetHeight + 'px');
+  // keep your header gap correction
+  if (header) {
+    document.documentElement.style.setProperty("--header-offset", header.offsetHeight + "px");
+  }
 });
-
-/* ============================================================
-   End of mfm-scripts.js
-   ============================================================ */
