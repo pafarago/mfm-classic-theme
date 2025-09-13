@@ -188,31 +188,50 @@ body{color:var(--text); line-height:1.5; font-family: Georgia, "Times New Roman"
    =========================== */
 
 /* ===========================
-   PATCH — Direct SVG rect coloring
-   Timestamp: 2025-09-12 1:25 AM EDT by ChatGPT
+   PATCH — Unified hamburger styles
+   Timestamp: 2025-09-12 6:15 PM EDT by ChatGPT
    =========================== */
 
+/* Default (desktop) — hidden */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.8rem;
+  line-height: 1;
+  padding: 8px 10px;
+  margin: 0;
+  color: var(--brand);
+}
+
+/* Mobile & tablet */
 @media (max-width: 999px) {
-  /* Default state */
   .menu-toggle {
-    color: #4da6ff; /* light blue base */
-  }
-  .menu-toggle svg rect {
-    fill: currentColor !important; /* force use of parent color */
-    transition: fill 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    order: 2;
+    margin-left: auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4da6ff; /* light blue idle */
+    transition: color 0.3s ease;
   }
 
-  /* Active (menu open) */
   .menu-toggle[aria-expanded="true"] {
     color: #001f3f; /* navy when active */
   }
-  .menu-toggle[aria-expanded="true"] svg rect {
-    fill: currentColor !important;
+
+  /* Hide the ::after ghost content */
+  .menu-toggle::after {
+    content: none !important;
   }
 }
 /* ===========================
-   PATCH END — Direct SVG rect coloring
-   Timestamp: 2025-09-12 1:25 AM EDT by ChatGPT
+   END PATCH — Unified hamburger styles
+   Timestamp: 2025-09-12 6:15 PM EDT by ChatGPT
    =========================== */
 
 /* =========================================================
