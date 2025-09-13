@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleButton.style.display = "block";
         toggleButton.style.position = "absolute";
         toggleButton.style.top = "10px";
-        toggleButton.style.right = "15px";
+        toggleButton.style.left = "15px";
         navMenu.classList.remove("active");
         toggleButton.setAttribute("aria-expanded", "false");
         toggleButton.textContent = "☰ Open Menu";
@@ -37,14 +37,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // --- Adjust page padding under fixed header ---
-  const main = document.querySelector("main");
-  if (header && main) {
-    const headerHeight = header.offsetHeight;
-    main.style.paddingTop = headerHeight + "px";
-  }
+  document.documentElement.style.setProperty('--header-offset', header.offsetHeight + 'px');
 });
 
 /* ============================================================
    End of mfm-scripts.js
    ============================================================ */
-
