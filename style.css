@@ -94,13 +94,24 @@ img { max-width:100%; height:auto; }
   margin:20px auto;
 }
 
+/* Titles inside content boxes (responsive with clamp) */
+#site-content .content-box .entry-title {
+  text-align: center;
+  margin: 0 0 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: clamp(1.25rem, 2vw + 1rem, 2rem);
+  line-height: 1.2;
+  word-break: break-word; /* keeps long titles from breaking layout */
+}
+/*
 #site-content .content-box .entry-title {
   text-align:center;
   margin:0 0 15px;
   padding-bottom:8px;
   border-bottom:1px solid var(--border);
 }
-
+*/
 /* ---------- Archive cards (Quaker Town Crier etc.) ---------- */
 .archive .hentry {
   background:var(--card);
@@ -218,6 +229,13 @@ img { max-width:100%; height:auto; }
 }
 
 @media (width <= 999px) {
+
+#site-content .content-box ol {
+    padding-left: 1.25rem;  /* tighter indent */
+}
+#site-content .content-box ol > li > ol {
+    padding-left: 1.25rem;
+}
 
 .mfm-doc-title {
   font-size: 1.4rem;

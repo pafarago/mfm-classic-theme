@@ -65,8 +65,14 @@ function mfm_classic_enqueue_assets() {
 }
 add_action('wp_enqueue_scripts', 'mfm_classic_enqueue_assets');
 
+function enqueue_pdf_gestures() {
+    wp_enqueue_script('hammerjs', 'https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js', [], null, true);
+    wp_enqueue_script('pdf-gestures', get_template_directory_uri() . '/js/pdf-gestures.js', ['hammerjs'], null, true);
+}
+add_action('wp_enqueue_scripts', 'enqueue_pdf_gestures');
+
 // -------------------------------------------------
-// Example small template filter (safe to keep here)
+// Example small template filter (safe to keep 
 // -------------------------------------------------
 function mfm_classic_excerpt_length($length) {
     return 30; // words
