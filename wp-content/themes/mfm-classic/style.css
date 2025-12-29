@@ -1,646 +1,674 @@
 /* ============================================================
-   Midlothian Friends Meeting — Unified Stylesheet
-   2025-09-18 12:47:00 EDT
+   Midlothian Friends Meeting — Unified Stylesheet (Refactored)
+   Mobile-first typography + spacing (Calibri) + 1000px breakpoint
+   2025-12-29
    ============================================================ */
 
-/* ---------- Variables ---------- */
-:root {
+/* ---------------------------------------------------------------------
+   Design tokens
+   --------------------------------------------------------------------- */
+:root{
+  /* Brand */
   --brand:#036;
   --brand-2:#069;
+
+  /* Neutrals */
   --text:#222;
   --muted:#666;
   --border:#ddd;
   --card:#fff;
+
+  /* Effects */
   --shadow:0 2px 10px rgb(0 0 0 / 6%);
   --radius:10px;
+
+  /* Layout */
   --max-container-width:1024px;
   --header-offset:0px; /* updated by JS */
+
+  /* Typography */
+  --font-sans: Aptos, Calibri, "Segoe UI", -apple-system, BlinkMacSystemFont, Candara, Optima, Arial, sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+
+  /* Type scale (mobile-first) */
+  --fs-body: 1.2rem;                    /* 19.2px (+20%) */
+  --lh-body: 1.55;
+
+  --fs-small: 0.9375rem;                /* 15px */
+  --fs-tiny: 0.8125rem;                 /* 13px */
+
+  --fs-h1: clamp(1.35rem, 1.1rem + 2.0vw, 2.05rem);
+  --fs-h2: clamp(1.20rem, 1.05rem + 1.3vw, 1.65rem);
+  --fs-h3: clamp(1.08rem, 1.00rem + 0.8vw, 1.35rem);
+
+  /* Spacing scale */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-7: 2rem;      /* 32px */
 }
 
-/* ---------- Reset & Base ---------- */
+/* ---------------------------------------------------------------------
+   Reset + base
+   --------------------------------------------------------------------- */
 *,
 *::before,
-*::after { box-sizing:border-box; }
+*::after{ box-sizing:border-box; }
 
-body {
+html{ -webkit-text-size-adjust:100%; }
+
+body{
   margin:0;
-  font-family: Georgia,"Times New Roman",Times,serif;
-  line-height:1.6;
-  color:var(--text);
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text);
   overflow-x:hidden;
   padding-top: 0 !important; /* reset any earlier body padding */
 }
 
-#site-content {
-  max-width: var(--max-container-width);
-  margin:20px auto; /* always respect header */
-  margin-top: calc(var(--header-offset, 0px) + 6px) !important;
-  padding-top: 0 !important;
-}
+a{ color:var(--brand-2); text-decoration:none; }
+a:hover{ color:var(--brand); text-decoration:underline; }
+img{ max-width:100%; height:auto; }
 
-/* End patch 2025-09-15 14:55:22 EDT */
-
-a { color:var(--brand-2); text-decoration:none; }
-a:hover { color:var(--brand); text-decoration:underline; }
-img { max-width:100%; height:auto; }
-
-/* ---------- Header ---------- */
-.site-header {
-  max-width: var(--max-container-width);
-  margin: 0 auto;
-  padding: 10px 0 0;
-  text-align: center;
-  border-bottom:1px solid var(--border);
-  position: fixed;
-  top:0; left:0; right:0;
-  z-index:1000;
-  background:#fff;
-  display:flex; align-items:center; justify-content:center;
-  gap:10px;
-}
-.site-header .site-logo { max-height:120px; height:auto; }
-
-/* ---------- Navigation (desktop) ---------- */
-.main-nav .nav-menu,
-.main-nav .nav-menu ul {
-  list-style:none; margin:0; padding:0;
-}
-
-.main-nav .nav-menu {
-  display:flex; gap:15px; justify-content:center;
-}
-.main-nav .nav-menu li { position:relative; }
-
-.main-nav .nav-menu a {
-  display:block; padding:6px 10px; color:var(--brand);
-  text-align:left;
-}
-.main-nav .nav-menu a:hover { color:var(--brand-2); }
-
-.main-nav .nav-menu .sub-menu {
-  display:none; position:absolute; left:0; top:100%;
-  min-width:200px; background:var(--card);
-  border:1px solid var(--border); box-shadow:var(--shadow);
-}
-.main-nav .nav-menu > li:hover > .sub-menu { display:block; }
-
-/* ---------- Content wrappers ---------- */
-#site-content .content-box {
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:20px;
-  margin:20px auto;
-}
-
-/* Titles inside content boxes (responsive with clamp) */
-#site-content .content-box .entry-title {
-  text-align: center;
-  margin: 0 0 15px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-  font-size: clamp(1.25rem, 2vw + 1rem, 2rem);
-  line-height: 1.2;
-  word-break: break-word; /* keeps long titles from breaking layout */
-}
-/*
-#site-content .content-box .entry-title {
-  text-align:center;
-  margin:0 0 15px;
-  padding-bottom:8px;
-  border-bottom:1px solid var(--border);
-}
-*/
-/* ---------- Archive cards (Quaker Town Crier etc.) ---------- */
-.archive .hentry {
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:20px;
-  margin:20px auto;
-  max-width:var(--max-container-width);
-}
-.archive .hentry .entry-title { margin-top:0; }
-
-/* ---------- Custom outline lists (Handbook) ---------- */
-.mfm-outline { list-style-type: upper-roman; margin-left:2rem; }
-.mfm-outline li { margin:.5rem 0; }
-.mfm-outline li > ol { list-style-type: upper-alpha; margin-left:2rem; }
-.mfm-outline li > ol > li > ol { list-style-type: decimal; margin-left:2rem; }
-
-/* ---------- Responsive embeds ---------- */
-.embed-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  height:0; overflow:hidden;
-  max-width:var(--max-container-width);
-  margin:0 auto;
-}
-
-.embed-container iframe {
-  position:absolute; top:0; left:2.5%;
-  width:95%; height:100%; border:0;
-}
-
-/* ---------- Footer ---------- */
-.site-footer {
-  max-width: var(--max-container-width);
-  margin:0 auto;
-  text-align:center;
-  padding:20px;
-  font-size:.9rem;
-  color:var(--muted);
-  border-top:1px solid var(--border);
-}
-
-/* ---------- Run-off protection ---------- */
+/* Prevent run-off (long URLs, etc.) */
 .entry-content,
 .entry-content p,
 .entry-content li,
 .entry-content td,
-.entry-content th {
+.entry-content th{
   overflow-wrap:anywhere;
   word-break:break-word;
 }
 
 .entry-content img,
 .entry-content table,
-.entry-content iframe {
+.entry-content iframe{
   max-width:100% !important;
-  height:auto; display:block;
+  height:auto;
+  display:block;
 }
 
-/* =======================================================================
-   Document Embeds (mfm_doc shortcode + /embed pages)
-   -----------------------------------------------------------------------
-   These styles apply to documents embedded from Google Drive (Docs, PDF).
-   Plugin provides semantic markup:
-     - .mfm-doc-title     → <h1> title above embed
-     - .mfm-doc-wrapper   → container for iframe + fallback link
-     - .mfm-doc-fallback  → paragraph with download/fullscreen link
-   Adjustments for mobile can be layered under @media (max-width: 999px).
-   ======================================================================= */
+/* ---------------------------------------------------------------------
+   Page container
+   --------------------------------------------------------------------- */
+#site-content{
+  max-width: var(--max-container-width);
+  margin: var(--space-4) auto; /* mobile-first */
+  margin-top: calc(var(--header-offset, 0px) + 6px) !important;
+  padding-top: 0 !important;
+  padding-inline: var(--space-4);
+}
 
-.mfm-doc-title {
-  font-size: 1.8rem;
+/* ---------------------------------------------------------------------
+   Header (mobile-first)
+   --------------------------------------------------------------------- */
+.site-header{
+  max-width: var(--max-container-width);
+  margin: 0 auto;
+  padding: var(--space-2) 0 0;
+  border-bottom:1px solid var(--border);
+  background:#fff;
+
+  position: fixed;
+  top:0; left:0; right:0;
+  z-index:1000;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: var(--space-3);
+
+  text-align:center;
+}
+
+.site-header .site-logo{
+  max-height: 60px; /* mobile default */
+  height:auto;
+}
+
+/* ---------------------------------------------------------------------
+   Content wrappers (mobile-first)
+   --------------------------------------------------------------------- */
+#site-content .content-box{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+
+  padding: var(--space-4);
+  margin: var(--space-4) auto;
+}
+
+#site-content .content-box .entry-title{
+  text-align:center;
+  margin: 0 0 var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom:1px solid var(--border);
+
+  font-size: var(--fs-h1);
+  line-height: 1.15;
+  font-weight: var(--font-weight-semibold);
+  word-break: break-word;
+}
+
+/* Archive cards */
+.archive .hentry{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+
+  padding: var(--space-4);
+  margin: var(--space-4) auto;
+  max-width:var(--max-container-width);
+}
+.archive .hentry .entry-title{ margin-top:0; }
+
+/* Outline lists (Handbook) */
+.mfm-outline{ list-style-type: upper-roman; margin-left:2rem; }
+.mfm-outline li{ margin:.5rem 0; }
+.mfm-outline li > ol{ list-style-type: upper-alpha; margin-left:2rem; }
+.mfm-outline li > ol > li > ol{ list-style-type: decimal; margin-left:2rem; }
+
+/* Tighter nested list indents on mobile */
+#site-content .content-box ol{ padding-left: 1.25rem; }
+#site-content .content-box ol > li > ol{ padding-left: 1.25rem; }
+
+/* ---------------------------------------------------------------------
+   Responsive embeds
+   --------------------------------------------------------------------- */
+.embed-container{
+  position: relative;
+  padding-bottom: 56.25%;
+  height:0;
+  overflow:hidden;
+  max-width:var(--max-container-width);
+  margin:0 auto;
+}
+.embed-container iframe{
+  position:absolute; top:0; left:2.5%;
+  width:95%; height:100%;
+  border:0;
+}
+
+/* ---------------------------------------------------------------------
+   Document Embeds (mfm_doc shortcode + /embed pages)
+   --------------------------------------------------------------------- */
+.mfm-doc-title{
+  font-size: var(--fs-h2);
   margin: 1em 0 0.5em;
   text-align: center !important;
   color: var(--brand, #003366);
+  font-weight: var(--font-weight-semibold);
 }
 
-.mfm-doc-wrapper {
-  margin: 0 auto 2em;
+.mfm-doc-wrapper{
+  margin: 0 auto var(--space-6);
   max-width: 100%;
 }
 
-.mfm-doc-wrapper iframe {
-  display: block;
-  width: 100%;
-  min-height: 400px;    /* guardrail if height attr missing */
-  max-height: 1000px;   /* beyond this, rely on iframe scroll */
-  border: none;
+.mfm-doc-wrapper iframe{
+  display:block;
+  width:100%;
+  min-height: 300px; /* mobile */
+  max-height: 700px;
+  border:none;
 }
 
-.mfm-doc-fallback {
-  margin-top: 0.5em;
-  font-size: 0.9rem;
+.mfm-doc-fallback{
+  margin-top: var(--space-2);
+  font-size: var(--fs-small);
 }
 
-.mfm-doc-fallback a {
+.mfm-doc-fallback a{
   color: var(--brand, #003366);
   text-decoration: underline;
 }
 
-/* End Document Embeds
-   ======================================================================= */
-@media (width >= 1000px) {
-
-  /* Hide the sliding panel on desktop */
-  #m-panel {
-    display: none !important;
-  }
-
-  /* Hide the hamburger toggle on desktop */
-  .menu-toggle {
-    display: none !important;
-  }
+/* ---------------------------------------------------------------------
+   Footer
+   --------------------------------------------------------------------- */
+.site-footer{
+  max-width: var(--max-container-width);
+  margin:0 auto;
+  text-align:center;
+  padding: var(--space-6) var(--space-4);
+  font-size: var(--fs-small);
+  color:var(--muted);
+  border-top:1px solid var(--border);
 }
 
-@media (width <= 999px) {
+/* =====================================================================
+   Navigation (mobile-first)
+   - Breakpoint: <1000px uses hamburger + sliding panel
+   - Breakpoint: >=1000px uses horizontal desktop menu
+   ===================================================================== */
 
-#site-content .content-box ol {
-    padding-left: 1.25rem;  /* tighter indent */
-}
-#site-content .content-box ol > li > ol {
-    padding-left: 1.25rem;
-}
-
-.mfm-doc-title {
-  font-size: 1.4rem;
-  text-align: center;
-}
-
-.mfm-doc-wrapper iframe {
-  min-height: 300px;  /* slightly smaller on mobile */
-  max-height: 700px;  /* keep scroll manageable */
-}
-
-.menu-toggle {
+/* --- Hamburger toggle (mobile) --- */
+.menu-toggle{
   all: unset;
   position: absolute;
-  top: 1.7rem;   /* adjust to align with logo bottom */
+  top: 1.7rem;    /* aligns under logo area */
   left: 1.1rem;
   cursor: pointer;
-  border: none !important;
-  background: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
+  padding:0 !important;
+  margin:0 !important;
+
+  border:none !important;
+  background:none !important;
+  box-shadow:none !important;
 }
 
-.menu-toggle svg {
-  width: 25px;
-  height: 25px;
-  display: block;
-  margin-inline: auto;     /* centers the SVG horizontally */
-  overflow: hidden;       /* prevents clipping of rotated/scaled bars */
-  line-height: 0;          /* keeps vertical spacing tight */
-}
-
+.menu-toggle svg,
 .menu-toggle .hamburger-icon,
-.menu-toggle .close-icon {
-  width: 25px;
-  height: 25px;
-  display: block;
-  margin-inline: auto;
-  line-height: 0;
-  overflow: hidden;
+.menu-toggle .close-icon{
+  width:25px;
+  height:25px;
+  display:block;
+  margin-inline:auto;
+  overflow:hidden;
+  line-height:0;
 }
 
-/* Hide close-icon by default */
-.menu-toggle .close-icon {
-  display: none;
+/* Hide close-icon by default; swap when active */
+.menu-toggle .close-icon{ display:none; }
+.menu-toggle.active .hamburger-icon{ display:none; }
+.menu-toggle.active .close-icon{ display:block; }
+
+.menu-toggle .label{
+  position:absolute;
+  top:100%;
+  margin-top:2px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size: var(--fs-tiny);
+  line-height:1;
+  text-transform:uppercase;
+  text-align:center;
+  white-space:nowrap;
 }
 
-/* On toggle, hide hamburger and show close-icon */
-.menu-toggle.active .hamburger-icon {
-  display: none;
-}
-
-.menu-toggle.active .close-icon {
-  display: block;
-}
-
-.menu-toggle .label {
-  position: absolute;
-  top: 100%;         /* anchor directly under the svg */
-  margin-top: 2px;   /* controlled, minimal gap */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.65rem;
-  line-height: 1;
-  text-transform: uppercase;
-  text-align: center;
-  white-space: nowrap;
-}
-
-
-  /* Ensure the sliding panel is available on mobile */
-  #m-panel {
+/* --- Sliding panel container (mobile) --- */
+#m-panel{
   position: fixed;
   top: var(--header-offset, 60px);
   left: 0;
   height: calc(100vh - var(--header-offset, 60px));
   background: #f5f5f5;
   z-index: 3000;
+
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
+
   overflow-y: auto;
   box-shadow: 3px 0 6px rgb(0 0 0 / 25%);
+  display: block !important;
+
   min-width: 200px;
   max-width: 80vw;
-  display: block !important;
-  width: min(80vw, 360px) !important;     /* stable width so subpanels have space */ overflow: hidden;
-  }
-
-  .site-header .site-logo {
-    max-height: 60px;  /* adjust as preferred */
-    height: auto;
-  }
-
-/* sub-panel code */
-
-	/* Lock scroll when menu open */
-  body.menu-open {
-    overflow: hidden;
-    height: 100vh;
-  }
-
-  /* Submenu panel */
-  .main-nav .nav-menu .submenu-panel {
-    display: block;
-    padding: 0;
-    margin: 0;
-  }
-
-  .main-nav .nav-menu .submenu-panel .back-button > a {
-    display: block;
-    padding: 10px 12px;
-    font-weight: bold;
-    font-size: 1rem;
-    color: var(--brand);
-    background: #f0f0f0;
-    border-bottom: 1px solid var(--border);
-  }
-
-
-  /* --- Collapsible nav with smooth open/close --- */
-  .main-nav .nav-menu{
-    display:flex; flex-direction:column;
-    gap:4px;
-    padding:0; margin:0;    /* kill default list spacing */
-    text-align:left;
-    max-height:0; opacity:0; overflow:hidden;
-    transition:max-height .3s ease, opacity .3s ease;
-  }
-  .main-nav .nav-menu.active{ max-height:100vh; opacity:1; }
-
-  /* --- Rows & links --- */
-  .main-nav .nav-menu>li{
-    list-style:none; margin:0; padding:0;
-    border-top:1px solid var(--border, #ccc);
-    line-height:1.3;         /* tighten inherited 1.6 */
-  }
-
-  .main-nav .nav-menu>li>a{
-    display:block;
-    font-size:1.1rem;
-    padding:6px 12px;
-    color:var(--menu-text, var(--brand)); text-decoration:none;
-    background:var(--menu-bg, #f9f9f9); border-radius:4px;
-    touch-action: pan-y;          /* scroll stays scroll on touch */
-  }
-
-  .main-nav .nav-menu>li>a:hover,
-  .main-nav .nav-menu>li>a:focus-visible{
-    background:rgb(0 0 0 / 3%);
-    outline:2px solid transparent; outline-offset:2px;
-    text-decoration:none;
-  }
-
-  /* --- Submenus --- */
-  .main-nav .nav-menu .sub-menu{
-    display:none; padding:0; margin:0;
-  }
-  .main-nav .nav-menu li.open>.sub-menu{ display:block; }
-
-  .main-nav .nav-menu .sub-menu a{
-    display:block;
-    font-size:1rem;
-    padding:5px 16px;
-    color:var(--submenu-text, #555);
-    touch-action: pan-y;
-  }
-
-/* Auto-width M-panel, light gray background, beveled edge */
-
-#m-panel.active {
-  transform: translateX(0);
+  width: min(80vw, 360px) !important; /* stable width so subpanels have space */
+  overflow: hidden;
 }
 
-.m-panel-nav {
+#m-panel.active{ transform: translateX(0); }
+
+.m-panel-nav{
   padding: 1em;
   overflow: hidden;
   display: block !important;
   position: relative;
   width: 100%;
-
-  /* Height will be set inline by JS to match active list; keep auto as base */
-  height: auto;
+  height: auto; /* JS can override to match active list */
 }
 
-.m-panel-menu { /* let items set the width */
-    width: 100% !important;
-    list-style: none;
-    margin: 0;
-    padding: 0; display: none;
+/* Lock scroll when menu open */
+body.menu-open{
+  overflow: hidden;
+  height: 100vh;
 }
 
-.m-panel-menu li {
-    display: block !important;
-    margin: 0.5em 0;
-    border-bottom: 1px solid var(--border, #ccc);
+/* Submenu panel (if used by JS) */
+.main-nav .nav-menu .submenu-panel{
+  display:block;
+  padding:0;
+  margin:0;
 }
 
-.m-panel-menu a {
+.main-nav .nav-menu .submenu-panel .back-button > a{
+  display:block;
+  padding: 10px 12px;
+  font-weight: var(--font-weight-semibold);
+  font-size: 1rem;
+  color: var(--brand);
+  background:#f0f0f0;
+  border-bottom:1px solid var(--border);
+}
+
+
+/* --- Collapsible nav list (mobile) --- */
+.main-nav .nav-menu,
+.main-nav .nav-menu ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+/* Mobile: nav-menu is vertical and collapsible */
+.main-nav .nav-menu{
+  display:flex;
+  flex-direction:column;
+  gap: var(--space-2);
+  text-align:left;
+
+  max-height:0;
+  opacity:0;
+  overflow:hidden;
+
+  transition:max-height .3s ease, opacity .3s ease;
+}
+
+.main-nav .nav-menu.active{
+  max-height: 100vh;
+  opacity: 1;
+}
+
+.main-nav .nav-menu > li{
+  list-style:none;
+  margin:0;
+  padding:0;
+  border-top:1px solid var(--border, #ccc);
+  line-height: 1.35;
+}
+
+.main-nav .nav-menu > li > a{
+  display:block;
+  font-size: 1.05rem;
+  padding: 0.55rem 0.85rem;
+
+  color: var(--menu-text, var(--brand));
+  text-decoration:none;
+
+  background: var(--menu-bg, #f9f9f9);
+  border-radius: 6px;
+
+  touch-action: pan-y; /* scroll stays scroll on touch */
+}
+
+.main-nav .nav-menu > li > a:hover,
+.main-nav .nav-menu > li > a:focus-visible{
+  background: rgb(0 0 0 / 3%);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  text-decoration:none;
+}
+
+/* Mobile submenus: opened via .open class */
+.main-nav .nav-menu .sub-menu{
+  display:none;
+  padding:0;
+  margin:0;
+}
+.main-nav .nav-menu li.open > .sub-menu{ display:block; }
+
+.main-nav .nav-menu .sub-menu a{
+  display:block;
+  font-size: 1rem;
+  padding: 0.45rem 1rem;
+  color: var(--submenu-text, #555);
+  touch-action: pan-y;
+}
+
+/* Subpanel / overlay nav (mobile) — existing behavior preserved */
+.m-panel-menu{
+  width: 100% !important;
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:none;
+}
+
+.m-panel.active .m-panel-menu{ display:block; }
+
+.m-panel-menu li{
+  display:block !important;
+  margin: 0.5em 0;
+  border-bottom: 1px solid var(--border, #ccc);
+}
+
+.m-panel-menu a{
   white-space: nowrap;
-    display: block;
-    padding: 0.5em 1em;
-    color: #000; /* ensure visible */
-    text-decoration: none;
-    transition: background 0.2s ease;
+  display:block;
+  padding: 0.5em 1em;
+  color:#000;
+  text-decoration:none;
+  transition: background 0.2s ease;
 }
 
-.m-panel-menu,
-.m-panel-menu ul.sub-menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+.m-panel-menu a:hover,
+.m-panel-menu a:focus{ background:#eee; }
 
 .m-panel-menu a,
-.m-panel-menu button.back-button {
-  display: block;
-  width: 100%;
+.m-panel-menu button.back-button{
+  display:block;
+  width:100%;
   padding: 12px 16px;
-  text-align: left;
-  background: none;
-  border: none;
+  text-align:left;
+  background:none;
+  border:none;
   font: inherit;
-  color: #333;
-  cursor: pointer;
+  color:#333;
+  cursor:pointer;
 }
 
-.m-panel-menu ul.sub-menu {
-  background: #f9f9f9;
+.m-panel-menu ul.sub-menu{
+  background:#f9f9f9;
   border-left: 3px solid #ddd;
   padding-top: 8px;
 }
 
-.m-panel-menu li.back {
+.m-panel-menu li.back{
   border-bottom: 2px solid var(--border, #ccc);
 }
 
-.m-panel-menu li.back .back-button {
-  font-weight: bold;
-  color: #0073aa;
+.m-panel-menu li.back .back-button{
+  font-weight: var(--font-weight-semibold);
+  color:#0073aa;
 }
 
-.m-panel-menu .sub-menu {        /* hidden until JS activates */
-  margin: 0;
-  background: #f5f5f5;
+.m-panel-menu .sub-menu{
+  margin:0;
+  background:#f5f5f5;
   padding: 0.5em;
-  display: none;
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
+  display:none;
+  opacity:0;
+  max-height:0;
+  overflow:hidden;
   transition: all 0.3s ease;
 }
 
-.m-panel-menu,
-.m-panel-menu .sub-menu {
-  display: none; /* hidden by default */
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.m-panel.active .m-panel-menu {
-  display: block; /* show main menu when panel active */
-}
-
-.m-panel-menu .back {
-  margin-bottom: 0.5em;
-}
-
-.m-panel-menu .sub-menu[style*="display: block"] {
-  display: block !important;
-  opacity: 1;
-  max-height: 500px; /* large enough to fit submenu */
-}
-
-.m-panel-menu a:hover,
-.m-panel-menu a:focus {
-    background: #eee;
-}
-
-.m-panel-menu,
-.m-subpanel {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* Main menu visibility controlled by .active */
-.m-panel-menu.active { display: block;
+.m-panel-menu .sub-menu[style*="display: block"]{
+  display:block !important;
+  opacity:1;
+  max-height: 500px;
 }
 
 /* Base subpanel state: off-screen */
-.m-subpanel {
-  height: 100%;
-  z-index: 1000;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  width: 100%;
-  background: #fff;
-  overflow-y: auto;
-  transition: left 0.3s ease;
-  display: block; /* stay block, but off-canvas */
+.m-subpanel{
+  height:100%;
+  z-index:1000;
+  position:absolute;
+  top:0;
+  left:100%;
+  width:100%;
+  background:#fff;
+  overflow-y:auto;
+  transition:left 0.3s ease;
+  display:block; /* stay block, but off-canvas */
 }
-
-/* Active subpanel slides into view */
-.m-subpanel.active {                                 /* slide into view (paired with existing rules) */
-  left: 0;
-  display: block !important;
+.m-subpanel.active{
+  left:0;
+  display:block !important;
 }
 
 /* Back button styling */
-.m-subpanel .back {
-  border-bottom: 1px solid #ddd;
-  margin: 0;
-  padding: 0;
+.m-subpanel .back{
+  border-bottom:1px solid #ddd;
+  margin:0;
+  padding:0;
 }
-
-.m-subpanel .back-button {
-  display: block;
-  width: 100%;
+.m-subpanel .back-button{
+  display:block;
+  width:100%;
   padding: 1em;
-  text-align: left;
-  background: #f5f5f5;
+  text-align:left;
+  background:#f5f5f5;
   font-size: 1em;
-  font-weight: bold;
-  color: #333;
-  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  color:#333;
+  text-decoration:none;
 }
-
 .m-subpanel .back-button:hover,
-.m-subpanel .back-button:focus { background: #e0e0e0;
-}
+.m-subpanel .back-button:focus{ background:#e0e0e0; }
 
-#m-panel .m-panel-nav {
-  position: relative;
-}
+#m-panel .m-panel-nav{ position: relative; }
 
 /* Overlay sits above existing menu; we don't modify the base menu */
-.m-overlay-subpanel {
-  position: absolute;
-  inset: 0;
-  background: #fff;
+.m-overlay-subpanel{
+  position:absolute;
+  inset:0;
+  background:#fff;
   transform: translateX(100%);
   transition: transform 0.25s ease-out;
-  z-index: 2000;            /* above the main list */
-  display: flex;
-  flex-direction: column;
+  z-index:2000;
+  display:flex;
+  flex-direction:column;
 }
+.m-overlay-subpanel.open{ transform: translateX(0); }
 
-.m-overlay-subpanel.open {
-  transform: translateX(0);
-}
-
-/* Header row with back + title */
-.m-overlay-header {
-  display: flex;
-  align-items: center;
+.m-overlay-header{
+  display:flex;
+  align-items:center;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e3e3e3;
-  background: #f8f8f8;
+  border-bottom:1px solid #e3e3e3;
+  background:#f8f8f8;
 }
 
-.m-overlay-back {
-  appearance: none;
-  border: 0;
-  background: transparent;
+.m-overlay-back{
+  appearance:none;
+  border:0;
+  background:transparent;
   font: inherit;
-  cursor: pointer;
+  cursor:pointer;
   padding: 0.4rem 0.6rem;
 }
 
-.m-overlay-title {
-  font-weight: 600;
-  flex: 1;
+.m-overlay-title{
+  font-weight: var(--font-weight-semibold);
+  flex:1;
 }
 
-/* Cloned submenu list */
-.m-overlay-list {
-  list-style: none;
-  margin: 0;
+.m-overlay-list{
+  list-style:none;
+  margin:0;
   padding: 0.25rem 0;
-  overflow-y: auto;
+  overflow-y:auto;
 }
 
-.m-overlay-list > li > a {
-  display: block;
+.m-overlay-list > li > a{
+  display:block;
   padding: 0.9rem 1rem;
-  text-decoration: none;
+  text-decoration:none;
   color: inherit;
   border-bottom: 1px solid #f0f0f0;
 }
 
 .m-overlay-list > li > a:focus,
-.m-overlay-list > li > a:hover {
-  background: #f2f2f2;
-}
+.m-overlay-list > li > a:hover{ background:#f2f2f2; }
+
+/* ---------------------------------------------------------------------
+   Desktop overrides (>=1000px)
+   --------------------------------------------------------------------- */
+@media (width >= 1000px){
+
+  /* Slightly airier container on desktop */
+  #site-content{
+    padding-inline: var(--space-5);
+    margin: var(--space-5) auto;
+    margin-top: calc(var(--header-offset, 0px) + 6px) !important;
+  }
+
+  /* Header logo: larger on desktop */
+  .site-header .site-logo{ max-height: 120px; }
+
+  /* Content padding: larger on desktop */
+  #site-content .content-box{ padding: var(--space-5); }
+
+  /* Desktop nav: horizontal menu + hover dropdown */
+  .main-nav .nav-menu{
+    display:flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content:center;
+
+    max-height:none;
+    opacity:1;
+    overflow:visible;
+  }
+
+  .main-nav .nav-menu li{ position:relative; border-top:0; }
+
+  .main-nav .nav-menu a{
+    display:block;
+    padding: 6px 10px;
+    color: var(--brand);
+    text-align:left;
+    background: transparent;
+    border-radius: 0;
+    font-size: 1rem;
+  }
+
+  .main-nav .nav-menu a:hover{ color: var(--brand-2); }
+
+  .main-nav .nav-menu .sub-menu{
+    display:none;
+    position:absolute;
+    left:0;
+    top:100%;
+    min-width:200px;
+    background: var(--card);
+    border:1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .main-nav .nav-menu > li:hover > .sub-menu{ display:block; }
+
+  /* Hide the sliding panel and hamburger on desktop */
+  #m-panel{ display:none !important; }
+  .menu-toggle{ display:none !important; }
+
+  /* Desktop doc iframe can be taller */
+  .mfm-doc-wrapper iframe{
+    min-height: 400px;
+    max-height: 1000px;
+  }
 }
 
-/* ===== Begin patch — constrain <main> only on Embed-All pages ===== */
-body.page-template-page-embed main {
+/* ---------------------------------------------------------------------
+   Embed-All pages: constrain <main> only on Embed-All pages
+   --------------------------------------------------------------------- */
+body.page-template-page-embed main{
   position: relative;
   max-width: 1024px;
   max-height: 800px;
@@ -651,4 +679,3 @@ body.page-template-page-embed main {
   border: 1px solid #ddd; /* visual boundary while tuning */
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
-/* ===== End patch ===== */
