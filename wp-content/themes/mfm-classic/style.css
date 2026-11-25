@@ -601,7 +601,7 @@ body.menu-open{
 /* ---------------------------------------------------------------------
    Desktop overrides (>=1000px)
    --------------------------------------------------------------------- */
-@media (width >= 1000px){
+@media (min-width: 1000px){
 
   /* Slightly airier container on desktop */
   #site-content{

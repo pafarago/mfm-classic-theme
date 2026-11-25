@@ -372,38 +372,44 @@ add_filter('rest_pre_serve_request', function ($served, $result, $request, $serv
     return $served;
 }, 10, 4);
 
-function getParentFolderId($fileId): string {
-  try {  
-    $fileId = trim($fileId);
-    if ($fileId === '') {
-	    error_log('Bad file id=' . $filedId);
-	    return null;
-    }
-    $client = embedall_google_client();
-    if (!$client) {
-	    error_log('No $client');
-	    return null;
-    }
+function getParentFolderId(string $fileId): ?string {
+    try {
+        $fileId = trim($fileId);
+        if ($fileId === '') {
+            error_log('embed-all-shortcode: Bad file id (empty) in getParentFolderId()');
+            return null;
+        }
 
-    $service = new Google_Service_Drive($client);
-    $file = $service->files->get($fileId, ['fields' => 'parents']);
-    $parents = $file->getParents();
+        $client = embedall_google_client();
+        if (!$client) {
+            error_log('embed-all-shortcode: No Google client in getParentFolderId()');
+            return null;
+        }
 
-    if (empty($parents)) {
-	    error('No parents found');
-	    return null;
+        $service = new Google_Service_Drive($client);
+
+        // Important for Workspace / Shared drives
+        $file = $service->files->get($fileId, [
+            'fields'            => 'id,parents,driveId',
+            'supportsAllDrives' => true,
+        ]);
+
+        $parents = $file->getParents();
+
+        if (empty($parents)) {
+            // This can legitimately happen for a drive root, etc.
+            error_log('embed-all-shortcode: No parents found for file ' . $fileId);
+            return null;
+        }
+
+        return $parents[0];
+
+    } catch (Exception $e) {
+        error_log('embed-all-shortcode: getParentFolderId failed for ' . $fileId . ': ' . $e->getMessage());
+        return null;
     }
-
-    $parentId = $parents[0];
-    return $parentId;
-  } catch (Exception $e) {
-    return null;
-  }
 }
 
-/* ────────────────────────────────────────────────────────────────────────────
-   Shortcodes
-   ──────────────────────────────────────────────────────────────────────────── */
 function embedall_shortcode($atts) {
     $a = shortcode_atts([
         'id'     => '',
@@ -462,10 +468,13 @@ function embedall_drive_list_folder($folderId) {
         do {
             $resp = $service->files->listFiles([
                 'q' => $q,
-                'spaces' => 'drive',
+               // 'spaces' => 'drive',
                 'fields' => $fields,
                 'pageSize' => 100,
-                'pageToken' => $pageToken
+                'pageToken' => $pageToken,
+ 		'includeItemsFromAllDrives' => true,
+                'supportsAllDrives'         => true,
+               // 'corpora'                   => 'allDrives',
             ]);
             foreach ($resp->getFiles() as $f) {
                 $out[] = ['id'=>$f->getId(), 'name'=>$f->getName(), 'mimeType'=>$f->getMimeType()];
@@ -484,7 +493,7 @@ function embedall_drive_list_folder($folderId) {
             $is_pdf  = ($mime === 'application/pdf');
             $is_docx = ($mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
             $is_gdoc = ($mime === 'application/vnd.google-apps.document');
-            if ($is_pdf || $is_docx || $is_gdoc || $istoc) {
+            if ($is_pdf || $is_docx || $is_gdoc || $is_toc) {
                 if (!isset($byBase[$base]) || $is_pdf) $byBase[$base] = $file;
             } else {
                 $others[] = $file;
@@ -639,4 +648,4 @@ register_deactivation_hook(__FILE__, function () {
 });
 
 // ✅ Global confirmation
-error_log('Stewardship Viewer plugin loaded — all hooks registered');
+//error_log('Stewardship Viewer plugin loaded — all hooks registered');
